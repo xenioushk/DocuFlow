@@ -2,6 +2,7 @@
 
 import { signOut } from "next-auth/react"
 import Link from "next/link"
+import { SearchBar } from "@/app/components/search-bar"
 
 export function Navbar({ user }: { user: { name?: string | null; email?: string | null } }) {
   const handleSignOut = async () => {
@@ -12,9 +13,9 @@ export function Navbar({ user }: { user: { name?: string | null; email?: string 
   return (
     <nav className="bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-16 gap-8">
           <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="text-xl font-bold text-blue-600">
+            <Link href="/dashboard" className="text-xl font-bold text-blue-600 whitespace-nowrap">
               DocuFlow
             </Link>
             <div className="flex items-center gap-6">
@@ -27,9 +28,13 @@ export function Navbar({ user }: { user: { name?: string | null; email?: string 
             </div>
           </div>
 
+          <div className="flex-1 max-w-md">
+            <SearchBar />
+          </div>
+
           <div className="flex items-center gap-4">
-            <span className="text-sm text-gray-700">{user.name || user.email}</span>
-            <button onClick={handleSignOut} className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
+            <span className="text-sm text-gray-700 whitespace-nowrap">{user.name || user.email}</span>
+            <button onClick={handleSignOut} className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition whitespace-nowrap">
               Sign out
             </button>
           </div>

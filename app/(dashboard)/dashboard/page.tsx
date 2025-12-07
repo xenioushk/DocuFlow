@@ -24,6 +24,8 @@ export default async function DashboardPage() {
     },
   })
 
+  type Organization = (typeof organizations)[0]
+
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="mb-8">
@@ -54,7 +56,7 @@ export default async function DashboardPage() {
               </svg>
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-900">{organizations.reduce((acc, org) => acc + org._count.articles, 0)}</p>
+          <p className="text-3xl font-bold text-gray-900">{organizations.reduce((acc: number, org: Organization) => acc + org._count.articles, 0)}</p>
         </div>
 
         <div className="bg-white rounded-xl p-6 border border-gray-200">
@@ -66,7 +68,7 @@ export default async function DashboardPage() {
               </svg>
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-900">{organizations.reduce((acc, org) => acc + org._count.categories, 0)}</p>
+          <p className="text-3xl font-bold text-gray-900">{organizations.reduce((acc: number, org: Organization) => acc + org._count.categories, 0)}</p>
         </div>
       </div>
 
@@ -92,7 +94,7 @@ export default async function DashboardPage() {
             </div>
           ) : (
             <div className="space-y-4">
-              {organizations.map((org) => (
+              {organizations.map((org: Organization) => (
                 <Link key={org.id} href={`/dashboard/${org.slug}`} className="block p-4 border border-gray-200 rounded-lg hover:border-blue-300 hover:bg-blue-50 transition">
                   <div className="flex items-center justify-between">
                     <div>

@@ -64,8 +64,10 @@ export async function POST(req: Request) {
       take: 5,
     })
 
+    type Article = (typeof articles)[0]
+
     // Build context from articles
-    const context = articles.map((article) => `Title: ${article.title}\nContent: ${article.content.substring(0, 1000)}...`).join("\n\n---\n\n")
+    const context = articles.map((article: Article) => `Title: ${article.title}\nContent: ${article.content.substring(0, 1000)}...`).join("\n\n---\n\n")
 
     const systemPrompt = `You are a helpful AI assistant for a knowledge base application called DocuFlow. 
 Your role is to help users find information from their documentation.
@@ -105,7 +107,7 @@ Instructions:
 
           // Send article sources at the end
           if (articles.length > 0) {
-            const sources = `\n\n---\n\n**Sources:**\n${articles.map((a) => `- ${a.title}`).join("\n")}`
+            const sources = `\n\n---\n\n**Sources:**\n${articles.map((a: Article) => `- ${a.title}`).join("\n")}`
             controller.enqueue(encoder.encode(sources))
           }
 

@@ -2,20 +2,11 @@ import { auth } from "@/lib/auth"
 import Link from "next/link"
 import prisma from "@/lib/prisma"
 import { formatDate } from "@/lib/utils"
-import type { Prisma } from "@prisma/client"
-
-type ArticleWithRelations = Prisma.ArticleGetPayload<{
-  include: {
-    category: { select: { name: true } }
-    organization: { select: { name: true } }
-    author: { select: { name: true; email: true } }
-  }
-}>
 
 export default async function ArticlesPage() {
   const session = await auth()
 
-  const articles: ArticleWithRelations[] = await prisma.article.findMany({
+  const articles = await prisma.article.findMany({
     where: {
       organization: {
         members: {
@@ -47,6 +38,8 @@ export default async function ArticlesPage() {
       updatedAt: "desc",
     },
   })
+
+  type Article = (typeof articles)[0]
 
   return (
     <main className="container mx-auto px-4 py-8">
@@ -88,7 +81,7 @@ export default async function ArticlesPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {articles.map((article) => (
+              {articles.map((article: Article) => (
                 <tr key={article.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div>

@@ -183,10 +183,7 @@ export default function EditArticlePage() {
           <p className="text-gray-600 mt-1">Update your documentation</p>
         </div>
         <div className="flex gap-3">
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2 text-sm text-red-600 hover:text-red-700 font-medium"
-          >
+          <button onClick={handleDelete} className="px-4 py-2 text-sm text-red-600 hover:text-red-700 font-medium">
             Delete Article
           </button>
           <Link href="/articles" className="text-sm text-gray-600 hover:text-gray-900">
@@ -195,24 +192,13 @@ export default function EditArticlePage() {
         </div>
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">{error}</div>}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Workspace (Read-only) */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Workspace
-          </label>
-          <input
-            type="text"
-            value={organizations.find((o) => o.id === selectedOrgId)?.name || ""}
-            disabled
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
-          />
+          <label className="block text-sm font-medium text-gray-700 mb-2">Workspace</label>
+          <input type="text" value={organizations.find((o) => o.id === selectedOrgId)?.name || ""} disabled className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500" />
         </div>
 
         {/* Title & Slug */}
@@ -221,13 +207,7 @@ export default function EditArticlePage() {
             <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
               Title
             </label>
-            <input
-              {...register("title")}
-              type="text"
-              id="title"
-              placeholder="Article title"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
+            <input {...register("title")} type="text" id="title" placeholder="Article title" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
             {errors.title && <p className="mt-1 text-sm text-red-600">{errors.title.message}</p>}
           </div>
 
@@ -235,13 +215,7 @@ export default function EditArticlePage() {
             <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-2">
               Slug (URL)
             </label>
-            <input
-              {...register("slug")}
-              type="text"
-              id="slug"
-              placeholder="article-slug"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
+            <input {...register("slug")} type="text" id="slug" placeholder="article-slug" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
             {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
           </div>
 
@@ -249,11 +223,7 @@ export default function EditArticlePage() {
             <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700 mb-2">
               Category (Optional)
             </label>
-            <select
-              {...register("categoryId")}
-              id="categoryId"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            >
+            <select {...register("categoryId")} id="categoryId" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
               <option value="">No category</option>
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>
@@ -267,16 +237,8 @@ export default function EditArticlePage() {
             <label htmlFor="excerpt" className="block text-sm font-medium text-gray-700 mb-2">
               Excerpt (Optional)
             </label>
-            <textarea
-              {...register("excerpt")}
-              id="excerpt"
-              rows={2}
-              placeholder="Brief excerpt or description..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
-            {errors.excerpt && (
-              <p className="mt-1 text-sm text-red-600">{errors.excerpt.message}</p>
-            )}
+            <textarea {...register("excerpt")} id="excerpt" rows={2} placeholder="Brief excerpt or description..." className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+            {errors.excerpt && <p className="mt-1 text-sm text-red-600">{errors.excerpt.message}</p>}
           </div>
         </div>
 
@@ -290,27 +252,16 @@ export default function EditArticlePage() {
         <div className="flex items-center justify-between bg-white rounded-xl border border-gray-200 p-6">
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2">
-              <input
-                {...register("isPublished")}
-                type="checkbox"
-                className="w-4 h-4 text-blue-600 rounded"
-              />
+              <input {...register("isPublished")} type="checkbox" className="w-4 h-4 text-blue-600 rounded" />
               <span className="text-sm text-gray-700">Published</span>
             </label>
           </div>
 
           <div className="flex gap-3">
-            <Link
-              href="/articles"
-              className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition"
-            >
+            <Link href="/articles" className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
               Cancel
             </Link>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <button type="submit" disabled={isLoading} className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
               {isLoading ? "Updating..." : "Update Article"}
             </button>
           </div>

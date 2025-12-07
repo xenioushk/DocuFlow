@@ -29,10 +29,7 @@ export function Navbar({ user }: { user: { name?: string | null; email?: string 
 
           <div className="flex items-center gap-4">
             <span className="text-sm text-gray-700">{user.name || user.email}</span>
-            <button
-              onClick={handleSignOut}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition"
-            >
+            <button onClick={handleSignOut} className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition">
               Sign out
             </button>
           </div>

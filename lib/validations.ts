@@ -22,7 +22,7 @@ export const articleSchema = z.object({
   content: z.string().min(1, "Content is required"),
   excerpt: z.string().max(500, "Excerpt is too long").optional(),
   coverImage: z.string().url("Invalid URL").optional(),
-  categoryId: z.string().optional(),
+  categoryId: z.string().nullable().optional(),
   isPublished: z.boolean().default(false),
 })
 

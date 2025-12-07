@@ -107,23 +107,13 @@ export default function NewCategoryPage() {
         </Link>
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">
-          {error}
-        </div>
-      )}
+      {error && <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg">{error}</div>}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Workspace Selection */}
         <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Workspace
-          </label>
-          <select
-            value={selectedOrgId}
-            onChange={(e) => setSelectedOrgId(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-          >
+          <label className="block text-sm font-medium text-gray-700 mb-2">Workspace</label>
+          <select value={selectedOrgId} onChange={(e) => setSelectedOrgId(e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
             {organizations.map((org) => (
               <option key={org.id} value={org.id}>
                 {org.name}
@@ -138,13 +128,7 @@ export default function NewCategoryPage() {
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
               Name
             </label>
-            <input
-              {...register("name")}
-              type="text"
-              id="name"
-              placeholder="Category name"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
+            <input {...register("name")} type="text" id="name" placeholder="Category name" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
             {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
           </div>
 
@@ -152,13 +136,7 @@ export default function NewCategoryPage() {
             <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-2">
               Slug (URL)
             </label>
-            <input
-              {...register("slug")}
-              type="text"
-              id="slug"
-              placeholder="category-slug"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
+            <input {...register("slug")} type="text" id="slug" placeholder="category-slug" className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
             {errors.slug && <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>}
           </div>
 
@@ -166,32 +144,17 @@ export default function NewCategoryPage() {
             <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
               Description (Optional)
             </label>
-            <textarea
-              {...register("description")}
-              id="description"
-              rows={3}
-              placeholder="Brief description of this category..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-            />
-            {errors.description && (
-              <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>
-            )}
+            <textarea {...register("description")} id="description" rows={3} placeholder="Brief description of this category..." className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
+            {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description.message}</p>}
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex items-center justify-end gap-3 bg-white rounded-xl border border-gray-200 p-6">
-          <Link
-            href="/categories"
-            className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition"
-          >
+          <Link href="/categories" className="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition">
             Cancel
           </Link>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <button type="submit" disabled={isLoading} className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
             {isLoading ? "Creating..." : "Create Category"}
           </button>
         </div>

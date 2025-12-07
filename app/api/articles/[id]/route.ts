@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma"
 import { articleSchema } from "@/lib/validations"
 
 // GET single article
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
 
@@ -12,8 +12,10 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     const article = await prisma.article.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         author: {
           select: {
@@ -57,7 +59,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 
     // Increment view count
     await prisma.article.update({
-      where: { id: params.id },
+      where: { id },
       data: { views: { increment: 1 } },
     })
 
@@ -68,8 +70,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-// PATCH update article
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+// PATCH (update) article
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
 
@@ -77,8 +79,10 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     const article = await prisma.article.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!article) {
@@ -104,7 +108,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const validatedData = articleSchema.partial().parse(body)
 
     const updatedArticle = await prisma.article.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...validatedData,
         publishedAt: validatedData.isPublished !== undefined ? (validatedData.isPublished ? new Date() : null) : article.publishedAt,
@@ -140,7 +144,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // DELETE article
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const session = await auth()
 
@@ -148,8 +152,10 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
+    const { id } = await params
+
     const article = await prisma.article.findUnique({
-      where: { id: params.id },
+      where: { id },
     })
 
     if (!article) {
@@ -172,7 +178,7 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
 
     await prisma.article.delete({
-      where: { id: params.id },
+      where: { id },
     })
 
     return NextResponse.json({ success: true })

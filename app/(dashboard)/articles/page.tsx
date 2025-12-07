@@ -2,11 +2,20 @@ import { auth } from "@/lib/auth"
 import Link from "next/link"
 import prisma from "@/lib/prisma"
 import { formatDate } from "@/lib/utils"
+import type { Prisma } from "@prisma/client"
+
+type ArticleWithRelations = Prisma.ArticleGetPayload<{
+  include: {
+    category: { select: { name: true } }
+    organization: { select: { name: true } }
+    author: { select: { name: true; email: true } }
+  }
+}>
 
 export default async function ArticlesPage() {
   const session = await auth()
 
-  const articles = await prisma.article.findMany({
+  const articles: ArticleWithRelations[] = await prisma.article.findMany({
     where: {
       organization: {
         members: {

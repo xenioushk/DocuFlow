@@ -114,17 +114,17 @@ export default async function DashboardPage() {
 
       {/* Quick Actions */}
       <div className="mt-8 grid md:grid-cols-2 gap-6">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+        <Link href="/articles/new" className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200 hover:shadow-md transition">
           <h3 className="text-lg font-semibold text-gray-900 mb-2">📝 Create Article</h3>
           <p className="text-gray-600 mb-4 text-sm">Start writing documentation with our AI-powered editor</p>
-          <button className="px-4 py-2 bg-white text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-50 transition">New Article</button>
-        </div>
+          <span className="inline-block px-4 py-2 bg-white text-blue-600 rounded-lg text-sm font-medium">New Article</span>
+        </Link>
 
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">🤖 AI Assistant</h3>
-          <p className="text-gray-600 mb-4 text-sm">Ask questions and get instant answers from your docs</p>
-          <button className="px-4 py-2 bg-white text-purple-600 rounded-lg text-sm font-medium hover:bg-purple-50 transition">Open Chat</button>
-        </div>
+        <Link href="/articles" className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 border border-purple-200 hover:shadow-md transition">
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">📚 View Articles</h3>
+          <p className="text-gray-600 mb-4 text-sm">Browse and manage all your documentation</p>
+          <span className="inline-block px-4 py-2 bg-white text-purple-600 rounded-lg text-sm font-medium">Browse Articles</span>
+        </Link>
       </div>
     </main>
   )

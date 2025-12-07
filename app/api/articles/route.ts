@@ -103,14 +103,19 @@ export async function POST(request: NextRequest) {
     // Validate article data
     const validatedData = articleSchema.parse(articleData)
 
+    // Remove categoryId if it's empty or undefined
+    const { categoryId, ...restData } = validatedData
+    const dataToCreate = {
+      ...restData,
+      ...(categoryId ? { categoryId } : {}),
+      organizationId,
+      authorId: session.user.id,
+      publishedAt: validatedData.isPublished ? new Date() : null,
+    }
+
     // Create article
     const article = await prisma.article.create({
-      data: {
-        ...validatedData,
-        organizationId,
-        authorId: session.user.id,
-        publishedAt: validatedData.isPublished ? new Date() : null,
-      },
+      data: dataToCreate,
       include: {
         author: {
           select: {

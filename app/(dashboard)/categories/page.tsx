@@ -29,7 +29,10 @@ export default async function CategoriesPage() {
     },
   })
 
-  const allCategories = organizations.flatMap((org) => org.categories.map((cat) => ({ ...cat, organizationName: org.name })))
+  type Organization = typeof organizations[0]
+  type Category = Organization['categories'][0]
+
+  const allCategories = organizations.flatMap((org: Organization) => org.categories.map((cat: Category) => ({ ...cat, organizationName: org.name })))
 
   return (
     <main className="container mx-auto px-4 py-8">

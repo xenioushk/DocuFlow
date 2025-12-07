@@ -51,7 +51,7 @@ export default function EditCategoryPage({ params }: { params: Promise<{ id: str
   useEffect(() => {
     params.then((p) => {
       setCategoryId(p.id)
-      
+
       fetch(`/api/categories/${p.id}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch category")

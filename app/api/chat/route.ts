@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth"
 import prisma from "@/lib/prisma"
 import OpenAI from "openai"
 
-export const runtime = "edge"
+// Removed edge runtime since Prisma doesn't support it
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,

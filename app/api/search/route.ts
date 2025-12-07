@@ -66,10 +66,7 @@ export async function GET(request: Request) {
           },
         },
       },
-      orderBy: [
-        { isPublished: "desc" },
-        { updatedAt: "desc" },
-      ],
+      orderBy: [{ isPublished: "desc" }, { updatedAt: "desc" }],
       take: 50,
     })
 

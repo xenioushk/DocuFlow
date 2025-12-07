@@ -1,0 +1,168 @@
+// Prisma Schema for DocuFlow - AI-Powered Knowledge Base
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// User model
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+  role          Role           @default(MEMBER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  // Relations
+  accounts      Account[]
+  sessions      Session[]
+  organizations OrganizationMember[]
+  articles      Article[]
+  
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+// NextAuth Account model
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// NextAuth Session model
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// NextAuth VerificationToken model
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Organization (Workspace/Tenant) model
+model Organization {
+  id          String               @id @default(cuid())
+  name        String
+  slug        String               @unique
+  description String?
+  logo        String?
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+  
+  // Relations
+  members     OrganizationMember[]
+  articles    Article[]
+  categories  Category[]
+  
+  @@map("organizations")
+}
+
+// Organization membership (many-to-many with role)
+model OrganizationMember {
+  id             String       @id @default(cuid())
+  role           MemberRole   @default(EDITOR)
+  userId         String
+  organizationId String
+  createdAt      DateTime     @default(now())
+  
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, organizationId])
+  @@map("organization_members")
+}
+
+enum MemberRole {
+  OWNER
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// Category model (for organizing articles)
+model Category {
+  id             String       @id @default(cuid())
+  name           String
+  slug           String
+  description    String?
+  icon           String?
+  parentId       String?
+  organizationId String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  
+  // Relations
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  parent       Category?    @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children     Category[]   @relation("CategoryHierarchy")
+  articles     Article[]
+  
+  @@unique([organizationId, slug])
+  @@map("categories")
+}
+
+// Article model (main content)
+model Article {
+  id             String       @id @default(cuid())
+  title          String
+  slug           String
+  content        String       @db.Text
+  excerpt        String?      @db.Text
+  coverImage     String?
+  isPublished    Boolean      @default(false)
+  views          Int          @default(0)
+  authorId       String
+  organizationId String
+  categoryId     String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  publishedAt    DateTime?
+  
+  // Relations
+  author       User         @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  category     Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  
+  @@unique([organizationId, slug])
+  @@index([organizationId, isPublished])
+  @@index([categoryId])
+  @@index([authorId])
+  @@map("articles")
+}
